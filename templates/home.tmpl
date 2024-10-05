@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>☺欢迎来到杭电问答平台！</title>
+    <style>
+        .oneline{display:inline;}
+        .form-margin {
+            margin-right: 20px; /* 设置右边距 */
+        }
+    </style>
+
+    <script>
+        function deletequestion(id) {
+            var questionElement = document.getElementById(`question-${id}-1`);
+            var q2 = document.getElementById(`${id}-2`);
+            questionElement.style.textDecoration ="line-through";
+            q2.style.textDecoration ="line-through";
+            var num=id.toString()
+            fetch('http://127.0.0.1:8080/home/delete',{
+                method:'DELETE',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: num
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+
+    </script>
+</head>
+<body>
+<h1 >☺{{.Name}},欢迎来到杭电问答平台！</h1>
+<form action="/home/new" method="post" class="oneline ">
+    <input type="text"  name="new" value="请输入你的问题.." class="oneline" required>
+    <button type="submit" class="oneline">添加问题</button>
+</form>
+<p class="oneline"> / </p>
+<button class="oneline">✌直接问AI *</button>
+<br><br>
+<p class="oneline">查看问题:</p>
+<form action="/home/my" method="get" class="oneline">
+    <button type="submit" >查看我提出的问题</button>
+</form>
+<p class="oneline">&nbsp;&nbsp;</p>
+<form action="/home/all" method="get" class="oneline form-margin">
+    <button type="submit">查看所有问题</button>
+</form>
+<form action="/home/all" method="get" class="oneline form-margin">
+    <button type="submit">刷新问题</button>
+</form>
+<hr>
+<form action="/" method="get" class="oneline">
+    <label class="oneline">账户管理:</label>
+    <button type="submit" class="oneline">退出登录</button>
+    <p class="oneline">&nbsp;&nbsp;</p>
+</form>
+<button class="oneline">修改密码*</button>
+
+{{if .V}}<hr>
+    <p class="oneline">权限申请:</p>
+    <button class="oneline">申请*</button>
+{{else}}<hr>
+    <lable class="oneline">您是管理员:</lable>
+<form class="oneline" action="/home/manage" method="get">
+    <button  class="oneline">管理回答</button>
+</form>
+
+<form class="oneline" action="home/manage/{{ .ID }}" method="post">
+    <button type="submit">用户管理*</button>
+</form>
+
+{{end}}
+
+<hr>
+<h2>问题列表</h2>
+<ul><hr>
+    {{if .K}}
+        <p>TAG : This</p>
+        {{ range .questions}}
+            <li>{{.From}} :</li>
+            <ul class="oneline">| {{.Content}}</ul>
+            <form class="oneline" action="home/:{{.ID}}/answer">
+                <input type="text" name="answer"  required>
+                <button type="submit" >写回答*</button>
+            </form>
+            <form class="oneline">
+                <button type="submit">查看回答*</button>
+            </form>
+            <hr>
+        {{else}}
+            <li>没有提出问题</li>
+        {{end}}
+    {{ else }}
+        <p>Manage Mode</p>
+        {{ range .questions}}
+            <li id="question-{{.ID}}-1" class="oneline"> ●{{.From}} :</li>
+            <br><ul class="oneline" id="{{ .ID }}-2" >| {{.Content}}</ul>
+            <button onclick="deletequestion({{.ID}})" class="oneline">删除</button>
+
+            <hr>
+        {{else}}
+             <li>没有提出问题</li>
+        {{end}}
+
+    {{end}}
+
+</ul>
+</body>
+</html>

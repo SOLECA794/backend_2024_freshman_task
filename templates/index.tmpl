@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>☺这是一个问答平台</title>
+    <style>
+        .oneline{display:inline;}
+    </style>
+</head>
+<body>
+<h1>登录杭电问答平台</h1>
+<h2>未完待续☹</h2>
+<h4 class="oneline">备忘:</h4>
+<p class="oneline">*密码错误提醒*|*忘记密码*|*未注册提示*|*注册查重*|*重置密码*|*页面间身份核验*|</p>
+<p>{{ .message }}</p>
+<form action="/login" method="post">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <br>
+    <button type="submit">Login</button>
+    <br>
+</form>
+<p>{{ .message2 }}</p>
+
+{{$v:=.v}}
+{{if $v }}
+<form action="/reset" method="get">
+    <p class="oneline">忘记密码？尝试重置</p>
+    <button class="oneline" type="submit">忘记密码</button>
+</form>
+{{ end }}
+
+<form action="/signup" method="get">
+    <p class="oneline">No account? Try to sign up.</p>
+    <button class="oneline" type="submit">sign up</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>我的问题</title>
+  <style>
+    .oneline{display:inline;}
+  </style>
+  <script>
+    function deletequestion(id) {
+      var questionElement = document.getElementById(`question-${id}`);
+      questionElement.style.textDecoration ="line-through";
+      var num=id.toString()
+      fetch('http://127.0.0.1:8080/home/delete',{
+        method:'DELETE',
+        headers: {
+          'Content-Type': 'text/plain'
+        },
+        body: num
+      })
+              .then(response => response.json())
+              .then(data => console.log(data))
+              .catch(error => console.error('Error:', error));
+    }
+
+  </script>
+</head>
+<body>
+<h2>问题列表</h2>
+<ul>
+  {{ range .questions}}
+        <p class="oneline">●</p>
+        <li class="oneline" id="question-{{.ID}}">{{.From}} :</li>
+            <p class="oneline">{{.Time}}</p>
+        <button onclick="deletequestion({{.ID}})" class="oneline">删除</button>
+        <br><ul class="oneline">| {{.Content}}</ul><p class="oneline">  </p><button class="oneline">修改*</button>
+            <button class="oneline">查看回答*</button>
+        <br><br>
+  {{else}}
+        <li>没有提出问题</li>
+  {{end}}
+
+</ul>
+</body>
+</html>

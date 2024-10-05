@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>signing up....</title>
+    <style>
+        .oneline{display:inline;}
+    </style>
+    <script>
+        function f(){
+            window.location.href="http://127.0.0.1:8080/"
+        }
+    </script>
+</head>
+<body>
+      <h2>用户注册</h2>
+      <h4 class="oneline">备注:</h4>
+      <p class="oneline">*用户名查重*|*邮箱作为识别标志*|*社区管理员注册*</p>
+      <h3>{{ .text }}</h3>
+      <form action="/signup" method="post">
+        <label for="username">用户名:</label>
+        <input type="text" id="username" name="username" required>
+          <p class="oneline">(必填)</p>
+        <br>
+        <label for="password">密码 :</label>
+        <input type="password" id="password" name="password" required>
+          <p class="oneline">(必填)</p>
+          <br>
+          <lable for="email">邮箱:</lable>
+          <input type="text" id="email" name="email" required>
+          <p class="oneline">(必填)</p>
+        <br><br><button type="submit">注册</button>
+          <p class="oneline">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+              <button onclick="f()">返回</button>
+        <br><br>
+          <label class="oneline">邀请码:</label>
+          <input size="35" type="text" name="submission" class="oneline" value="若您需要注册社区管理员，请填写邀请码">
+
+
+      </form>
+      <p>{{ .message }}</p>
+</body>
+</html>
